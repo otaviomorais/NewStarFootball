@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Golden Star behind -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M54,22 L58,35 L72,35 L61,43 L65,56 L54,48 L43,56 L47,43 L36,35 L50,35 Z" />
+
+    <!-- Ball Outer White Glow/Base -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,54m-20,0a20,20 0,1,1 40,0a20,20 0,1,1 -40,0" />
+
+    <!-- Center Pentagon (Black) -->
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M54,47 L60,51 L58,58 L50,58 L48,51 Z" />
+
+    <!-- Surrounding Pentagons / Edge Patches -->
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M54,34 L57,39 L51,39 Z" />
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M71,46 L66,48 L68,54 Z" />
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M65,68 L64,62 L69,60 Z" />
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M43,68 L44,62 L39,60 Z" />
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M37,46 L42,48 L40,54 Z" />
+
+    <!-- Seam Lines -->
+    <path
+        android:strokeColor="#333333"
+        android:strokeWidth="1.2"
+        android:pathData="M54,47 L54,39 M60,51 L66,48 M58,58 L64,62 M50,58 L44,62 M48,51 L42,48" />
+
+    <!-- Speed / Dynamic swoosh trail -->
+    <path
+        android:strokeColor="#FFD700"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M30,76 C38,82 50,84 62,80 C74,76 80,68 82,60" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M34,81 C42,86 52,87 64,84" />
+</vector>
+

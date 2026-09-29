@@ -1,0 +1,6 @@
+{
+  "name": "Estrela do Futebol",
+  "description": "Jogo de futebol estilo New Star Soccer com carreira de jogador, partidas interativas, chutes com curva, passes, treinos e vida pessoal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
