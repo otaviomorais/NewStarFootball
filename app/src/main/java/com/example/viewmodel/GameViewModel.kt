@@ -88,23 +88,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
       launch {
         repository.careerPlayerFlow.collect { savedPlayer ->
-          if (savedPlayer != null) {
-            _player.value = savedPlayer
-          } else {
-            // Initial default player
-            val initial = Player(
-              name = "Gabriel",
-              nickname = "Craque",
-              age = 17,
-              nationality = "Brasil",
-              preferredFoot = "Destro",
-              position = PlayerPosition.ATACANTE,
-              number = 10,
-              currentClubId = "vila_real"
-            )
-            _player.value = initial
-            repository.savePlayerAndItems(initial, setOf("boots_basic"))
-          }
+          _player.value = savedPlayer
         }
       }
 
@@ -641,5 +625,25 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
       repository.savePlayerAndItems(updatedPlayer, _ownedItems.value)
     }
     onSuccess(msg)
+  }
+
+  val hasSavedCareer: Boolean get() = _player.value != null
+
+  fun toggleSound(): Boolean {
+    soundManager.soundEnabled = !soundManager.soundEnabled
+    return soundManager.soundEnabled
+  }
+
+  fun toggleVibration(): Boolean {
+    soundManager.vibrationEnabled = !soundManager.vibrationEnabled
+    return soundManager.vibrationEnabled
+  }
+
+  fun deleteCareerSave() {
+    viewModelScope.launch {
+      repository.resetCareer()
+      _player.value = null
+      _ownedItems.value = setOf("boots_basic")
+    }
   }
 }

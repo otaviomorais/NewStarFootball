@@ -344,6 +344,55 @@ class ExampleRobolectricTest {
     assertEquals(topOffer.club.id, signedPlayer.currentClubId)
     assertEquals(topOffer.wagePerMatch, signedPlayer.wagePerMatch)
   }
+
+  @Test
+  fun `verify nss lob shot elevation over defenders`() {
+    val physics = com.example.gameplay.physics.SoccerPhysicsEngine()
+    // Striking bottom of the ball (y = 0.8f) in NSS elevates the ball
+    physics.launchShot(
+      startX = 0.5f,
+      startY = 0.7f,
+      targetX = 0.5f,
+      targetY = 0.2f,
+      impactOffset = androidx.compose.ui.geometry.Offset(0f, 0.8f),
+      powerInput = 0.85f,
+      playerPower = 60,
+      playerCurl = 50,
+      playerAccuracy = 70
+    )
+
+    assertTrue(physics.vz > 0.015f)
+    // Run 15 physics frames
+    for (i in 0 until 15) {
+      physics.update(0.016f)
+    }
+    // Altitude Z should be well above ground (> 0.12f clears ground defenders!)
+    assertTrue(physics.ballZ > 0.12f)
+  }
+
+  @Test
+  fun `verify nss curve shot sidespin bends trajectory`() {
+    val physics = com.example.gameplay.physics.SoccerPhysicsEngine()
+    // Striking left side of the ball (x = -0.9f) in NSS causes curve to the right
+    physics.launchShot(
+      startX = 0.5f,
+      startY = 0.7f,
+      targetX = 0.5f,
+      targetY = 0.15f,
+      impactOffset = androidx.compose.ui.geometry.Offset(-0.9f, 0.2f),
+      powerInput = 0.8f,
+      playerPower = 55,
+      playerCurl = 85, // High technique/curl
+      playerAccuracy = 70
+    )
+
+    assertTrue(physics.spinZ > 0f)
+    for (i in 0 until 20) {
+      physics.update(0.016f)
+    }
+    // Trajectory curved to the right (ballX > 0.5f)
+    assertTrue(physics.ballX > 0.51f)
+  }
 }
 
 

@@ -250,7 +250,7 @@ fun MatchScreen(
             }
           }
 
-          // Tactical Pitch Canvas
+          // Tactical Pitch Canvas (Fluxo Autêntico New Star Soccer)
           Box(
             modifier = Modifier
               .fillMaxWidth()
@@ -261,121 +261,18 @@ fun MatchScreen(
               userPlayer = player,
               homeClub = homeClub,
               awayClub = matchState.opponentClub,
-              impactOffset = impactOffset,
               isExecutingShot = isExecutingShot,
               selectedAction = matchState.selectedAction,
+              onTriggerShotWithImpact = { impact, power, _ ->
+                impactOffset = impact
+                aimPower = power
+                isExecutingShot = true
+              },
               onShotFinished = { outcome ->
                 isExecutingShot = false
                 onShotFinished(outcome)
-              },
-              onAimChanged = { power, _ ->
-                aimPower = power
               }
             )
-          }
-
-          // Bottom Control Deck (NSS Ball Impact Selector + Power Bar + Strike Button)
-          Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = Color(0xFF111E13),
-            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-            tonalElevation = 6.dp
-          ) {
-            Row(
-              modifier = Modifier
-                .fillMaxWidth()
-                .padding(14.dp),
-              verticalAlignment = Alignment.CenterVertically,
-              horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-              // The Signature 3D Ball Impact Selector
-              BallImpactSelector(
-                impactPoint = impactOffset,
-                onImpactChange = { impactOffset = it },
-                enabled = !isExecutingShot,
-                modifier = Modifier.weight(1f)
-              )
-
-              Spacer(modifier = Modifier.width(12.dp))
-
-              // Power Indicator & Strike Action Button
-              Column(
-                modifier = Modifier.weight(1.1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-              ) {
-                Row(
-                  modifier = Modifier.fillMaxWidth(),
-                  horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                  Text(
-                    text = "POTÊNCIA",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold
-                  )
-                  Text(
-                    text = "${(aimPower * 100).toInt()}%",
-                    color = ChampionGold,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                  )
-                }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                LinearProgressIndicator(
-                  progress = { aimPower },
-                  modifier = Modifier
-                    .fillMaxWidth()
-                    .height(6.dp)
-                    .clip(RoundedCornerShape(3.dp)),
-                  color = if (aimPower > 0.85f) CardRed else StadiumGreenLight,
-                  trackColor = Color(0xFF26382A)
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                val action = matchState.selectedAction
-                val actionLabel = if (currentChance.type == MatchChanceType.TACKLE_INTERCEPTION) {
-                  "DESARMAR (-${action.energyCost} HP)"
-                } else if (action == TacticalActionType.DESPERATE_SHOT) {
-                  "CHUTE NO LIMITE (0 HP)"
-                } else {
-                  "${action.label.uppercase()} (-${action.energyCost} HP)"
-                }
-
-                Button(
-                  onClick = {
-                    if (!isExecutingShot) {
-                      isExecutingShot = true
-                    }
-                  },
-                  enabled = !isExecutingShot,
-                  modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .testTag("strike_ball_button"),
-                  shape = RoundedCornerShape(12.dp),
-                  colors = ButtonDefaults.buttonColors(
-                    containerColor = ChampionGold,
-                    contentColor = BallBlack
-                  )
-                ) {
-                  Icon(
-                    imageVector = Icons.Default.SportsSoccer,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                  )
-                  Spacer(modifier = Modifier.width(6.dp))
-                  Text(
-                    text = actionLabel,
-                    fontWeight = FontWeight.Black,
-                    fontSize = 12.sp,
-                    maxLines = 1
-                  )
-                }
-              }
-            }
           }
         }
       } else {

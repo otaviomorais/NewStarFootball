@@ -108,36 +108,28 @@ fun MainAppScreen(
     StartMenuScreen(
       player = player,
       playerClub = player?.let { viewModel.getPlayerClub() },
-      nextOpponent = viewModel.getNextOpponent(),
-      onPlayNextMatch = {
-        if (player != null && !player!!.isTrialCompleted) {
-          viewModel.soundManager.playClick()
-          isAtStartMenu = false
-        } else {
-          viewModel.soundManager.playSuccess()
-          viewModel.startMatch(viewModel.getNextOpponent())
-        }
-      },
-      onEnterCareerHub = {
-        viewModel.soundManager.playClick()
+      soundEnabled = viewModel.soundManager.soundEnabled,
+      vibrationEnabled = viewModel.soundManager.vibrationEnabled,
+      onContinueCareer = {
+        viewModel.soundManager.playSuccess()
         isAtStartMenu = false
-        if (player == null || player!!.isTrialCompleted) {
-          selectedTab = MainTab.MATCH
-        }
-      },
-      onGoToTraining = {
-        viewModel.soundManager.playClick()
-        isAtStartMenu = false
-        selectedTab = MainTab.TRAINING
-      },
-      onGoToProfile = {
-        viewModel.soundManager.playClick()
-        isAtStartMenu = false
-        selectedTab = MainTab.PLAYER
+        selectedTab = MainTab.MATCH
       },
       onNewCareerClick = {
         viewModel.soundManager.playClick()
         showNewCareerDialog = true
+      },
+      onToggleSound = {
+        viewModel.toggleSound()
+      },
+      onToggleVibration = {
+        viewModel.toggleVibration()
+      },
+      onDeleteCareer = {
+        viewModel.deleteCareerSave()
+        scope.launch {
+          snackbarHostState.showSnackbar("Carreira excluída com sucesso.")
+        }
       }
     )
 
