@@ -333,3 +333,52 @@ fun NssBallStrikeDialog(
     }
   }
 }
+
+/**
+ * Compact Ball Impact Selector for backwards compatibility and standalone usage.
+ */
+@Composable
+fun BallImpactSelector(
+  impactPoint: Offset,
+  onImpactChange: (Offset) -> Unit,
+  modifier: Modifier = Modifier,
+  enabled: Boolean = true
+) {
+  var showModal by remember { mutableStateOf(false) }
+
+  Column(
+    modifier = modifier,
+    horizontalAlignment = Alignment.CenterHorizontally
+  ) {
+    Surface(
+      onClick = { if (enabled) showModal = true },
+      shape = RoundedCornerShape(12.dp),
+      color = Color(0xFF142E1B),
+      border = androidx.compose.foundation.BorderStroke(1.dp, ChampionGold),
+      modifier = Modifier.testTag("ball_impact_selector")
+    ) {
+      Row(
+        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+      ) {
+        Icon(imageVector = Icons.Default.SportsSoccer, contentDescription = null, tint = ChampionGold, modifier = Modifier.size(16.dp))
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(text = "Efeito / Altura", color = ChampionGold, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+      }
+    }
+  }
+
+  if (showModal) {
+    NssBallStrikeDialog(
+      initialImpact = impactPoint,
+      playerCurlSkill = 50,
+      playerAccuracySkill = 50,
+      onImpactConfirmed = {
+        onImpactChange(it)
+        showModal = false
+      },
+      onCancel = { showModal = false }
+    )
+  }
+}
+

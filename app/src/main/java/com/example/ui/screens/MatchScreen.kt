@@ -56,7 +56,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.gameplay.BallImpactSelector
 import com.example.gameplay.PitchTacticalCanvas
 import com.example.gameplay.ShotOutcome
 import com.example.model.Club
