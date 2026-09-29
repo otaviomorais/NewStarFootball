@@ -20,7 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
           AppDatabase::class.java,
           "estrela_futebol_db"
         )
-          .fallbackToDestructiveMigration(dropAllTables = true)
+          .fallbackToDestructiveMigration()
           .build()
         INSTANCE = instance
         instance
